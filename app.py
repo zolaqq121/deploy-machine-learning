@@ -73,25 +73,38 @@ st.write(f"Rata-rata Skor: {df_reset['score'].mean():.2f}")
 st.write(f"Sentimen Terbanyak: {df_reset['sentiment'].mode()[0]}")
 
 # ---------------------------
-# FITUR BARU: INPUT TEKS & HASIL SENTIMEN
+# FITUR BARU: INPUT TEKS & HASIL SENTIMEN (DIPERBAIKI)
 # ---------------------------
 st.header("Analisis Sentimen dari Input Teks")
 user_text = st.text_area("Masukkan kalimat ulasan:")
+
+# Kamus sederhana untuk sentimen Bahasa Indonesia
+neg_words = ["jelek", "buruk", "parah", "payah", "ngecewain", "mengecewakan", "lambat", "lemot", "tidak bagus"]
+pos_words = ["bagus", "mantap", "keren", "baik", "cepat", "puas", "recommended", "suka"]
 
 if st.button("Analisis Sentimen"):
     if user_text.strip() == "":
         st.warning("Masukkan teks terlebih dahulu.")
     else:
-        blob = TextBlob(user_text)
-        polarity = blob.sentiment.polarity
+        text_lower = user_text.lower()
+        score = 0
 
-        if polarity > 0:
+        # Hitung skor berdasarkan kemunculan kata positif dan negatif
+        for w in neg_words:
+            if w in text_lower:
+                score -= 1
+        for w in pos_words:
+            if w in text_lower:
+                score += 1
+
+        if score > 0:
             hasil = "positif"
-        elif polarity < 0:
+        elif score < 0:
             hasil = "negatif"
         else:
             hasil = "netral"
 
         st.subheader("Hasil Analisis:")
         st.write(f"Sentimen: **{hasil}**")
-        st.write(f"Nilai polaritas: {polarity:.3f}")
+        st.write(f"Nilai polaritas: {score:.3f}"
+ {polarity:.3f}")
