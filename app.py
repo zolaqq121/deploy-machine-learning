@@ -106,5 +106,4 @@ if st.button("Analisis Sentimen"):
 
         st.subheader("Hasil Analisis:")
         st.write(f"Sentimen: **{hasil}**")
-        st.write(f"Nilai polaritas: {score:.3f}"
- {polarity:.3f}")
+        st.write(f"Nilai polaritas: {score:.3f}")
